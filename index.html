@@ -7,47 +7,58 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
-            margin: 0;
         }
-        h1 {
-            margin-bottom: 20px;
+        #quiz-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         #question {
             font-size: 24px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
         #answer {
-            font-size: 18px;
-            margin-bottom: 20px;
-            color: #555;
+            font-size: 20px;
+            color: gray;
+            transition: opacity 0.5s ease;
+        }
+        #answer.fadeIn {
+            opacity: 1;
+        }
+        #answer.fadeOut {
+            opacity: 0;
         }
         #next-button {
+            margin-top: 20px;
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
         }
-        .fadeOut {
-            opacity: 0;
-            transition: opacity 0.5s;
-        }
-        .fadeIn {
-            opacity: 1;
-            transition: opacity 0.5s;
+        #next-button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
 
-<h1>THE ROMAN EMPIRE</h1>
-<div id="question"></div>
-<div id="answer"></div>
-<button id="next-button" onclick="nextQuestion()">Next Question</button>
+<div id="quiz-container">
+    <div id="question"></div>
+    <div id="answer" class="fadeIn"></div>
+    <button id="next-button" onclick="nextQuestion()">Next</button>
+</div>
 
 <script>
     const quizData = [
@@ -153,50 +164,23 @@
         { question: "What was the Roman practice of honoring the gods through rituals and sacrifices?", answer: "Religious observance" }
     ];
 
-    let currentQuestionIndex = 0;
-
-    function showQuestion() {
-        const questionElement = document.getElementById('question');
-        const answerElement = document.getElementById('answer');
-        
-        questionElement.innerText = quizData[currentQuestionIndex].question;
-        answerElement.innerText = '';
-        questionElement.classList.remove('fadeOut');
-        questionElement.classList.add('fadeIn');
-        answerElement.classList.remove('fadeIn');
-        answerElement.classList.add('fadeOut');
-    }
-
-    function showAnswer() {
-        const answerElement = document.getElementById('answer');
-        answerElement.innerText = quizData[currentQuestionIndex].answer;
-        answerElement.classList.remove('fadeOut');
-        answerElement.classList.add('fadeIn');
-    }
-
+    let currentQuestion = 0;
+    
     function nextQuestion() {
-        currentQuestionIndex++;
-        if (currentQuestionIndex < quizData.length) {
-            showQuestion();
+        if (currentQuestion < quizData.length) {
+            document.getElementById("question").innerText = quizData[currentQuestion].question;
+            document.getElementById("answer").innerText = quizData[currentQuestion].answer;
+            currentQuestion++;
         } else {
-            const questionElement = document.getElementById('question');
-            const answerElement = document.getElementById('answer');
-            questionElement.innerText = 'Quiz Over!';
-            answerElement.innerText = '';
-            document.getElementById('next-button').style.display = 'none';
+            document.getElementById("question").innerText = "Quiz completed!";
+            document.getElementById("answer").innerText = "";
+            document.getElementById("next-button").style.display = "none";
         }
     }
 
-    document.getElementById('next-button').addEventListener('click', () => {
-        const answerElement = document.getElementById('answer');
-        if (answerElement.innerText === '') {
-            showAnswer();
-        } else {
-            nextQuestion();
-        }
-    });
-
-    showQuestion();
+    window.onload = function() {
+        nextQuestion();
+    };
 </script>
 
 </body>
