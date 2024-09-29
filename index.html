@@ -3,64 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE ROMAN EMPIRE</title>
+    <title>ROMAN EMPIRE</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif; /* Standard font */
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
+            background-color: transparent; /* Fully transparent background */
+            color: black; /* Standard text color */
+            text-align: center;
         }
+
         #quiz-container {
-            background-color: white;
+            background-color: transparent; /* Fully transparent container */
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
         }
-        #question {
-            font-size: 24px;
+
+        #logo {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            font-size: 1.5rem;
             margin-bottom: 10px;
         }
-        #answer {
-            font-size: 20px;
-            color: gray;
-            transition: opacity 0.5s ease;
+
+        .answer {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: white; /* Change the answer color to white */
         }
-        #answer.fadeIn {
-            opacity: 1;
-        }
-        #answer.fadeOut {
-            opacity: 0;
-        }
+
         #next-button {
+            background-color: white; /* Change background color to white */
+            color: black; /* Change text color to black for visibility */
+            border: 2px solid #ff9900; /* Optional: Add a border for better visibility */
+            padding: 15px;
             margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
+            border-radius: 10px;
             cursor: pointer;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
+            font-size: 1rem;
+            transition: all 0.3s ease-in-out;
         }
+
         #next-button:hover {
-            background-color: #0056b3;
+            background-color: #ffcc00; /* Change hover color for better effect */
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .fadeOut {
+            animation: fadeOut 0.5s forwards;
+        }
+
+        .fadeIn {
+            animation: fadeIn 0.5s forwards;
         }
     </style>
 </head>
 <body>
 
 <div id="quiz-container">
-    <div id="question"></div>
-    <div id="answer" class="fadeIn"></div>
-    <button id="next-button" onclick="nextQuestion()">Next</button>
+    <img id="logo" src="https://i.imgur.com/cyZ0Z21.png" alt="Roman Empire Logo">
+    <h1>ROMAN EMPIRE</h1>
+    <div id="question-container">
+        <div class="question" id="question">Loading question...</div>
+        <div class="answer" id="answer">Loading answer...</div>
+        <button id="next-button" onclick="nextQuestion()">Next Question</button>
+    </div>
 </div>
 
 <script>
+    // Question and answers data
     const quizData = [
         { question: "What year is traditionally considered the founding year of Rome?", answer: "753 BC" },
         { question: "Who was the first emperor of Rome?", answer: "Augustus" },
@@ -81,106 +127,53 @@
         { question: "Who led a famous slave revolt against the Roman Republic in 73–71 BC?", answer: "Spartacus" },
         { question: "What was the primary purpose of Roman aqueducts?", answer: "To transport water to cities and towns" },
         { question: "Which Roman structure served as a public bathhouse?", answer: "Thermae" },
-        { question: "Who was the first Roman emperor to convert to Christianity?", answer: "Constantine the Great" },
-        { question: "What was the name of the Roman festival honoring Saturn, the god of agriculture?", answer: "Saturnalia" },
-        { question: "Which document, signed in 1215, limited the power of the king in England, influenced by Roman law?", answer: "Magna Carta" },
-        { question: "What was the Roman term for a military camp?", answer: "Castra" },
-        { question: "What year did the Western Roman Empire officially fall?", answer: "AD 476" },
-        { question: "Which Roman general was famously assassinated on the Ides of March?", answer: "Julius Caesar" },
-        { question: "What is the name of the Roman god of war?", answer: "Mars" },
-        { question: "Which famous Roman poet wrote the Aeneid?", answer: "Virgil" },
-        { question: "What was the significance of the Edict of Milan in AD 313?", answer: "It granted religious tolerance for Christianity in the Roman Empire." },
-        { question: "What were the elite fighting forces of Rome called?", answer: "The Praetorian Guard" },
-        { question: "Which Roman province is known for its extensive use of vineyards and wine production?", answer: "Gaul" },
-        { question: "What was the Roman legal code called?", answer: "The Twelve Tables" },
-        { question: "Who was the Roman goddess of wisdom?", answer: "Minerva" },
-        { question: "What was the name of the famous Roman marketplace?", answer: "Forum Romanum (Roman Forum)" },
-        { question: "What engineering marvel allowed Romans to build cities far from water sources?", answer: "Aqueducts" },
-        { question: "Which Roman emperor initiated the construction of the Colosseum?", answer: "Vespasian" },
-        { question: "What term describes the period of Roman history when it was ruled by emperors?", answer: "Principate" },
-        { question: "Which Roman historian wrote The History of Rome?", answer: "Titus Livius (Livy)" },
-        { question: "What was the Roman practice of adopting heirs known as?", answer: "Adoption as a means of succession" },
-        { question: "What title was given to the Roman emperors as a mark of respect for their authority?", answer: "Augustus" },
-        { question: "Which city was buried under volcanic ash after the eruption of Mount Vesuvius in AD 79?", answer: "Pompeii" },
-        { question: "What was the primary purpose of Roman roads?", answer: "To facilitate military movement and trade." },
-        { question: "Which Roman engineer is known for his work on roads, bridges, and aqueducts?", answer: "Vitruvius" },
-        { question: "What was the title of the Roman leader in charge of a legion?", answer: "Legatus" },
-        { question: "Who was the Roman goddess of the hunt?", answer: "Diana" },
-        { question: "What was the Roman practice of paying tribute to gods called?", answer: "Sacrifice" },
-        { question: "What type of government was established in Rome after the overthrow of the monarchy?", answer: "Republic" },
-        { question: "Who was the Roman god of the underworld?", answer: "Pluto" },
-        { question: "What was the Roman term for a public assembly or council?", answer: "Comitia" },
-        { question: "Which Roman emperor is known for his extravagant lifestyle and building projects?", answer: "Nero" },
-        { question: "What was the name of the civil wars that led to the end of the Roman Republic?", answer: "The Roman Civil Wars" },
-        { question: "What is the famous saying attributed to Julius Caesar, meaning 'I came, I saw, I conquered'?", answer: "Veni, Vidi, Vici" },
-        { question: "Which Roman poet is known for his love poetry and work Amores?", answer: "Ovid" },
-        { question: "What was the name of the conflict between Rome and the Parthian Empire?", answer: "The Roman-Parthian Wars" },
-        { question: "Which Roman emperor established the city of Constantinople?", answer: "Constantine the Great" },
-        { question: "What was the Roman term for a tribute or tax paid by provinces?", answer: "Stipendia" },
-        { question: "What structure was used for chariot racing in ancient Rome?", answer: "Circus Maximus" },
-        { question: "What was the name of the Roman political leader who became a dictator for life?", answer: "Julius Caesar" },
-        { question: "Which Roman leader famously declared, 'The die is cast'?", answer: "Julius Caesar" },
-        { question: "What was the name of the military formation used by Roman legions?", answer: "Testudo (Tortoise)" },
-        { question: "Which Roman general defeated Hannibal in the Second Punic War?", answer: "Scipio Africanus" },
-        { question: "What was the term for the Roman public baths?", answer: "Balneae" },
-        { question: "Which Roman structure was built to honor the dead?", answer: "Mausoleum" },
-        { question: "What was the Roman legal principle that established 'innocent until proven guilty'?", answer: "Presumption of innocence" },
-        { question: "Who was the wife of Julius Caesar and a prominent figure in Roman society?", answer: "Calpurnia" },
-        { question: "What famous Roman philosopher and statesman wrote Meditations?", answer: "Marcus Aurelius" },
-        { question: "What term refers to the Roman army's heavy infantry?", answer: "Legionnaires" },
-        { question: "Which Roman god is associated with the sun?", answer: "Sol" },
-        { question: "What was the primary use of the Roman forum?", answer: "Political, religious, and commercial center" },
-        { question: "Which Roman holiday celebrated the harvest and included feasting and revelry?", answer: "Ludi Romani" },
-        { question: "What was the Roman term for a woman of high social standing?", answer: "Matrona" },
-        { question: "What was the name of the Roman province that included modern-day France?", answer: "Gaul" },
-        { question: "Who was the Roman goddess of the harvest?", answer: "Ceres" },
-        { question: "Which Roman building served as the official residence of the emperor?", answer: "The Palatine Hill" },
-        { question: "What is the name of the ancient Roman historian known for The Gallic Wars?", answer: "Julius Caesar" },
-        { question: "What was the Roman term for a slave that could earn their freedom?", answer: "Libertus" },
-        { question: "Who was the famous gladiator who led a slave rebellion against Rome?", answer: "Spartacus" },
-        { question: "What is the term for the ancient Roman practice of adopting children for succession?", answer: "Adoption for political reasons" },
-        { question: "What did the Romans use to keep time during the day?", answer: "Sundials" },
-        { question: "What was the Roman title for a military commander?", answer: "Imperator" },
-        { question: "Which Roman structure was used for public speeches and gatherings?", answer: "The Forum" },
-        { question: "What term describes the moral and ethical code of the Roman people?", answer: "Mos maiorum" },
-        { question: "What was the significance of the year AD 313 in Roman history?", answer: "The Edict of Milan granted religious freedom." },
-        { question: "What Roman legal principle established the right to a fair trial?", answer: "Due process" },
-        { question: "Which Roman author wrote Metamorphoses?", answer: "Ovid" },
-        { question: "What was the primary purpose of the Roman legions?", answer: "To defend and expand the empire." },
-        { question: "Who was the Roman god of commerce and trade?", answer: "Mercury" },
-        { question: "What was the significance of the Battle of Actium in 31 BC?", answer: "It marked the end of the Roman Republic and the rise of the Empire." },
-        { question: "Which famous Roman structure is known for its intricate mosaics?", answer: "Villa Romana del Casale" },
-        { question: "What was the Roman term for a marketplace?", answer: "Forum" },
-        { question: "What was the Roman goddess of agriculture called?", answer: "Ceres" },
-        { question: "Which Roman poet is known for his works on the Roman countryside?", answer: "Horace" },
-        { question: "What was the purpose of the Roman census?", answer: "To assess the population for taxation and military service." },
-        { question: "Which famous Roman landmark was completed in AD 80?", answer: "The Colosseum" },
-        { question: "What was the Roman term for a public official responsible for maintaining public order?", answer: "Aedile" },
-        { question: "Which Roman leader is known for his reforms and the establishment of the calendar?", answer: "Julius Caesar" },
-        { question: "What was the primary method of communication in the Roman Empire?", answer: "Written letters and messengers." },
-        { question: "What term describes the Roman policy of assimilating conquered peoples?", answer: "Romanization" },
-        { question: "Who was the last emperor of the Eastern Roman Empire (Byzantine Empire)?", answer: "Constantine XI Palaiologos" },
-        { question: "What was the name of the eastern part of the Roman Empire after the fall of the West?", answer: "Byzantine Empire" },
-        { question: "What was the Roman practice of honoring the gods through rituals and sacrifices?", answer: "Religious observance" }
+        { question: "Who was the first Roman emperor to convert to Christianity?", answer: "Constantine the Great" }
     ];
 
-    let currentQuestion = 0;
-    
-    function nextQuestion() {
-        if (currentQuestion < quizData.length) {
-            document.getElementById("question").innerText = quizData[currentQuestion].question;
-            document.getElementById("answer").innerText = quizData[currentQuestion].answer;
-            currentQuestion++;
-        } else {
-            document.getElementById("question").innerText = "Quiz completed!";
-            document.getElementById("answer").innerText = "";
-            document.getElementById("next-button").style.display = "none";
+    let currentQuestionIndex = 0;
+
+    // Shuffle the quiz data
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
         }
     }
 
-    window.onload = function() {
-        nextQuestion();
-    };
+    // Start the quiz
+    shuffle(quizData);
+    showQuestion();
+
+    function showQuestion() {
+        const questionContainer = document.getElementById("question");
+        const answerContainer = document.getElementById("answer");
+
+        questionContainer.innerText = quizData[currentQuestionIndex].question;
+        answerContainer.innerText = "Loading answer...";
+
+        // Fade in effect
+        answerContainer.classList.remove("fadeIn");
+        answerContainer.classList.add("fadeOut");
+
+        setTimeout(() => {
+            answerContainer.innerText = quizData[currentQuestionIndex].answer;
+            answerContainer.classList.remove("fadeOut");
+            answerContainer.classList.add("fadeIn");
+        }, 500);
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < quizData.length) {
+            showQuestion();
+        } else {
+            const questionContainer = document.getElementById("question");
+            const answerContainer = document.getElementById("answer");
+            questionContainer.innerText = "Thank you for playing!";
+            answerContainer.innerText = "";
+            document.getElementById("next-button").style.display = "none"; // Hide the next button
+        }
+    }
 </script>
 
 </body>
